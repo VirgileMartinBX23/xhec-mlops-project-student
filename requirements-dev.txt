@@ -52,6 +52,8 @@ pytest==8.3.3
     # via -r requirements-dev.in
 pyyaml==6.0.2
     # via pre-commit
+ruff==0.7.1
+    # via -r requirements-dev.in
 tomli==2.0.2
     # via
     #   black
