@@ -10,3 +10,4 @@ SQLAlchemy
 matplotlib
 seaborn
 ipykernel
+pickle
