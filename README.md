@@ -33,12 +33,17 @@ You can download the dataset on the [Kaggle page](https://www.kaggle.com/dataset
   - [Steps to reproduce to build the deliverable](#steps-to-reproduce-to-build-the-deliverable)
     - [Pull requests in this project](#pull-requests-in-this-project)
     - [Tips to work on this project](#tips-to-work-on-this-project)
+- [Setup Instructions](#setup-instructions)
+  - [Environment Setup](#environment-setup)
+    - [Option 1: Setting up with Conda](#option-1-setting-up-with-conda)
+    - [Option 2: Setting up without Conda](#option-2-setting-up-without-conda)
+
 
 ## Deliverables and notation
 
 ### Deliverables
 
-The deliverable of this project is a copy of this repository with the industrialization of the Abalone age prediction model. We expect to see: 
+The deliverable of this project is a copy of this repository with the industrialization of the Abalone age prediction model. We expect to see:
 
 1. a workflow to train a model using Prefect
 - The workflows to train the model and to make the inference (prediction of the age of abalone) are in separate modules and use Prefect `flow` and `task` objects
@@ -59,24 +64,24 @@ Each of your pull requests will be graded based on the following criteria:
   - use of docstrings and type hinting
 - **Formatting**
   - respect of clear code conventions
-  
+
   *P.S. you can use a linter and automatic code formatters to help you with that*
 
 - Proper **Functioning** of the code
   - the code must run without bugs
 
-Bseides the evaluation of the pull requests, we will also evaluate: 
+Bseides the evaluation of the pull requests, we will also evaluate:
 - **Reproducibility** and clarity of instructions to run the code (we will actually try to run your code)
-  - Having a clear README.md with 
+  - Having a clear README.md with
     - the context of the project
     - the name of the participants and their github users
     - the steps to recreate the Python environment
     - the instructions to run all parts of the code
-- Use of *Pull Requests* (see below) to coordinate your collaboration 
+- Use of *Pull Requests* (see below) to coordinate your collaboration
 
 ## Steps to reproduce to build the deliverable
 
-To help you with the structure and order of steps to perform in this project, we created different pull requests templates. 
+To help you with the structure and order of steps to perform in this project, we created different pull requests templates.
 Each branch in this repository corresponds to a future pull request and has an attached markdown file with the instructions to perform the tasks of the pull request.
 Each branch starts with a number.
 You can follow the order of the branches to build your project and collaborate.
@@ -102,11 +107,12 @@ You can follow the order of the branches to build your project and collaborate.
    > ```bash
    > git checkout branch_number_i
    > git pull origin master
-   > # At this point, you might have a VIM window opening, you can close it using the command ":wq" 
+   > # At this point, you might have a VIM window opening, you can close it using the command ":wq"
    > git push
    > ```
+    - Read and **follow** all the instructions in the the PR instructions file
     - Do as many commits as necessary on the branch_number_i to perform the task indicated in the corresponding markdown file
-    - Open a pull request from this branch to the main branch of your forked repository
+    - Open **A SINGLE** pull request from this branch to the main branch of your forked repository
     - Once done, merge the pull request in the main branch of your forked repository
 
 ### Pull requests in this project
@@ -141,3 +147,55 @@ This will guarantee that your code is formatted correctly and of good quality be
 ```bash
 pip-compile requirements.in
 ```
+
+# Setup Instructions
+
+## Environment Setup
+This project can be set up with or without Conda. Choose the method that works best for your development environment.
+### Option 1: Setting up with Conda
+Follow these steps to create and activate a Conda environment:
+1. **Create the environment** using the `environment.yml` file. This will install all dependencies (both runtime and development):
+
+```bash
+conda env create -f environment.yml
+```
+
+2. **Activate the environment**:
+```bash
+conda activate xhec-mlops-env
+```
+3. **Install Pre-commit hooks** (optional but recommended):
+```bash
+pre-commit install
+```
+The pre-commit hooks will run code formatting (black), import sorting (isort), and linting (ruff) automatically before every commit.
+
+### Option 2: Setting up without Conda
+
+If you prefer not to use Conda, you can set up the environment using `pip` with `requirements.txt` and `requirements-dev.txt`:
+
+1. **Create a virtual environment**:
+  ```bash
+  python -m venv venv
+  ```
+2. **Activate the virtual environment**:
+  - On **macOS/Linux**:
+  ```bash
+  source venv/bin/activate
+  ```
+
+  - On **Windows**:
+  ```bash
+  venv\Scripts\activate
+  ```
+3. **Upgrade `pip` and install the project dependencies**:
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+```
+4. **Install Pre-commit hooks** (optional but recommended):
+```bash
+pre-commit install
+```
+The pre-commit hooks will enforce code formatting and quality checks.
