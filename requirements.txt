@@ -6,6 +6,10 @@
 #
 alembic==1.13.3
     # via mlflow
+annotated-types==0.7.0
+    # via pydantic
+anyio==4.6.2.post1
+    # via starlette
 appnope==0.1.4
     # via ipykernel
 asttokens==2.4.1
@@ -24,6 +28,7 @@ click==8.1.7
     # via
     #   flask
     #   mlflow-skinny
+    #   uvicorn
 cloudpickle==3.1.0
     # via mlflow-skinny
 comm==0.2.2
@@ -43,9 +48,13 @@ deprecated==1.2.14
 docker==7.1.0
     # via mlflow
 exceptiongroup==1.2.2
-    # via ipython
+    # via
+    #   anyio
+    #   ipython
 executing==2.1.0
     # via stack-data
+fastapi==0.115.3
+    # via -r requirements.in
 flask==3.0.3
     # via
     #   -r requirements.in
@@ -70,8 +79,12 @@ greenlet==3.1.1
     # via sqlalchemy
 gunicorn==23.0.0
     # via mlflow
+h11==0.14.0
+    # via uvicorn
 idna==3.10
-    # via requests
+    # via
+    #   anyio
+    #   requests
 importlib-metadata==8.5.0
     # via
     #   flask
@@ -182,6 +195,12 @@ pyasn1==0.6.1
     #   rsa
 pyasn1-modules==0.4.1
     # via google-auth
+pydantic==2.9.2
+    # via
+    #   -r requirements.in
+    #   fastapi
+pydantic-core==2.23.4
+    # via pydantic
 pygments==2.18.0
     # via ipython
 pyparsing==3.2.0
@@ -223,6 +242,8 @@ six==1.16.0
     #   python-dateutil
 smmap==5.0.1
     # via gitdb
+sniffio==1.3.1
+    # via anyio
 sqlalchemy==2.0.36
     # via
     #   -r requirements.in
@@ -232,6 +253,8 @@ sqlparse==0.5.1
     # via mlflow-skinny
 stack-data==0.6.3
     # via ipython
+starlette==0.41.0
+    # via fastapi
 threadpoolctl==3.5.0
     # via scikit-learn
 tornado==6.4.1
@@ -249,17 +272,25 @@ traitlets==5.14.3
 typing-extensions==4.12.2
     # via
     #   alembic
+    #   anyio
+    #   fastapi
     #   graphene
     #   graphql-core
     #   ipython
     #   opentelemetry-sdk
+    #   pydantic
+    #   pydantic-core
     #   sqlalchemy
+    #   starlette
+    #   uvicorn
 tzdata==2024.2
     # via pandas
 urllib3==2.2.3
     # via
     #   docker
     #   requests
+uvicorn==0.32.0
+    # via -r requirements.in
 wcwidth==0.2.13
     # via prompt-toolkit
 werkzeug==3.0.4

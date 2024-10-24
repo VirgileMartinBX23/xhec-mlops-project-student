@@ -10,3 +10,6 @@ SQLAlchemy
 matplotlib
 seaborn
 ipykernel
+fastapi
+uvicorn
+pydantic

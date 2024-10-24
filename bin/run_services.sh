@@ -2,5 +2,8 @@
 
 # TODO: Use this file in your Dockerfile to run the services
 
-prefect server start --host 0.0.0.0 --port 4201 &
-uvicorn src.web_service.main:app --host 0.0.0.0 --port 8001
+# Build the Docker image
+docker build -t abalone-fastapi-app -f Dockerfile.app .
+
+# Run the Docker container
+docker run -d -p 8000:8000 abalone-fastapi-app
