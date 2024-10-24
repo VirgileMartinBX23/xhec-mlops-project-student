@@ -1,37 +1,47 @@
-import argparse
 import os
-from pathlib import Path
+from typing import Optional
 
-from preprocessing import load_data, prepare_features
-from training import train_model
-from utils import pickle_object
+import numpy as np
+from predicting import predict
+from prefect import flow
+from preprocessing import process_data
+from sklearn.linear_model import LinearRegression
+from training import evaluate_model, train_model
+from utils import load_pickle, save_pickle
 
 
-def main(trainset_path: Path) -> None:
-    """Train a model using the data at the given path and save the model (pickle)."""
-    # Read data
-    df = load_data(trainset_path)
+@flow(name="Train model")
+def model_training_flow(trainset_path: str, save_model_path: str):
+    """Prefect flow to manage model training."""
+    X_train, X_test, y_train, y_test = process_data(trainset_path)
+    model = train_model(X_train, y_train)
+    y_pred = predict(X_test, model)
+    rmse = evaluate_model(y_test, y_pred)
 
-    # Preprocess data
-    X, y = prepare_features(df)
+    if save_model_path is not None:
+        save_pickle(os.path.join(save_model_path, "model.pkl"), model)
 
-    # Train model
-    model = train_model(X, y)
+    return {"model": model, "rmse": rmse}
 
-    # Pickle model
-    output_dir = os.path.join(
-        os.path.dirname(__file__), "../web_service/local_objects/"
-    )
-    os.makedirs(output_dir, exist_ok=True)
-    model_path = os.path.join(output_dir, "model.pkl")
 
-    pickle_object(model, model_path)
+@flow(name="Batch predict", retries=1, retry_delay_seconds=30)
+def batch_predict_workflow(
+    input_filepath: str,
+    model: Optional[LinearRegression] = None,
+    artifacts_filepath: Optional[str] = None,
+) -> np.ndarray:
+    """Make predictions on a new dataset"""
+    if model is None:
+        model = load_pickle(os.path.join(artifacts_filepath, "model.pkl"))
+
+    X = process_data(filepath=input_filepath, with_target=False)
+    y_pred = predict(X, model)
+
+    return y_pred
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Train a model using the data at the given path."
+    # Run the flow directly if executed as a script
+    model_training_flow(
+        "abalone/abalone.data", "src/web_service/local_objects/model.pkl"
     )
-    parser.add_argument("trainset_path", type=str, help="Path to the training set")
-    args = parser.parse_args()
-    main(args.trainset_path)

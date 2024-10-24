@@ -1,7 +1,9 @@
 import pickle
 
-import pandas as pd
-from preprocessing import prepare_features
+import numpy as np
+import scipy.sparse
+from prefect import task
+from sklearn.linear_model import LinearRegression
 
 
 def load_model(filepath="model.pkl"):
@@ -11,8 +13,8 @@ def load_model(filepath="model.pkl"):
     return model
 
 
-def make_predictions(model, data: pd.DataFrame):
+@task(name="Make predictions")
+def predict(X: scipy.sparse.csr_matrix, model: LinearRegression) -> np.ndarray:
     """Make predictions using the trained model."""
-    X, _ = prepare_features(data)
     predictions = model.predict(X)
     return predictions

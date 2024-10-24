@@ -27,7 +27,6 @@ jobs:
           black --check .
           isort --check-only .
           ruff .
-        #  flake8 .
       - name: Run tests
         run: pytest
 

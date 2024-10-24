@@ -199,3 +199,47 @@ pip install -r requirements-dev.txt
 pre-commit install
 ```
 The pre-commit hooks will enforce code formatting and quality checks.
+
+## Running Prefect Flows and Deployments
+To manage and run your workflows with Prefect, follow these steps:
+### Step 1: Sign Up for Prefect Cloud
+If you don't already have a Prefect Cloud account, sign up at [Prefect Cloud](https://www.prefect.io/cloud/).
+
+### Step 2: Create a Prefect Cloud Workspace
+Once you're logged in to Prefect Cloud:
+1. **Create a workspace** (if one doesn't already exist).
+2. Note the workspace **API Key** and **Workspace URL**, as you'll need them to connect your local setup to Prefect Cloud.
+
+### Step 3: Log into Prefect Cloud from CLI
+You need to log in to Prefect Cloud from your local machine using the Prefect CLI. Run the following command:
+
+```bash
+prefect cloud login --key <YOUR_API_KEY>
+```
+Replace <YOUR_API_KEY> with your Prefect Cloud API key. This key is available in your Prefect Cloud account settings under API Keys.
+
+### Step 4: Run the Deployment Script
+Now, you can deploy your Prefect flows to Prefect Cloud. Use the same `deployment.py` script to register your deployment:
+
+```bash
+python ./src/modelling/deployment.py
+```
+This will deploy your flow to the Prefect Cloud workspace.
+
+### Step 5: Trigger a Flow Run
+You can trigger flow runs directly from the Prefect Cloud UI or via the CLI.
+- Trigger via CLI:
+```bash
+prefect deployment run "Model Training Deployment"
+```
+
+- Trigger via Prefect Cloud UI: Go to your Prefect Cloud workspace and navigate to the Deployments tab. From there, you can trigger your flow manually by selecting the deployment and running it.
+
+### Step 6: Monitor Flow Runs in Prefect Cloud
+In Prefect Cloud, you can monitor the status of your flows, view logs, and inspect run results directly from the Prefect Cloud UI. Here’s how to do it:
+
+1. Go to your Prefect Cloud workspace in your browser.
+2. Navigate to the Flows or Flow Runs tab.
+3. You can view logs, success/failure statuses, and execution details for each flow run.
+
+You can also manage your deployments, schedules, and agents directly from the UI.
